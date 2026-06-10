@@ -34,6 +34,10 @@ class LiveSignRecognizer:
         self.recording_frames = 0
         self.max_recording_frames = 300   # ~10s at 30fps
 
+        # Temporary message for on‑screen feedback (e.g., after pressing F)
+        self.temp_message = ""
+        self.temp_message_end_time = 0
+
     def _start_recording(self, frame, fps=30.0):
         self.temp_video_path = tempfile.NamedTemporaryFile(suffix='.mp4', delete=False).name
         h, w = frame.shape[:2]
@@ -55,7 +59,6 @@ class LiveSignRecognizer:
             predicted_word, confidence = self.infer.predict_video(self.temp_video_path)
         except Exception as e:
             logger.error(f"Inference failed: {e}")
-            # Print full traceback for debugging
             import traceback
             traceback.print_exc()
             self._cleanup_temp_video()
@@ -82,22 +85,38 @@ class LiveSignRecognizer:
             Path(self.temp_video_path).unlink()
             self.temp_video_path = None
 
+    def _show_full_sentence(self):
+        """Display the collected sentence in terminal and on screen."""
+        full_sentence = " ".join(self.sentence_words)
+        print("\n" + "=" * 50)
+        print(f"COLLECTED WORDS: {self.sentence_words}")
+        print(f"FULL SENTENCE : {full_sentence}")
+        print("=" * 50 + "\n")
+        # Set temporary on‑screen message (visible for 2 seconds)
+        self.temp_message = f"Sentence: {full_sentence}" if full_sentence else "No words collected yet."
+        self.temp_message_end_time = time.time() + 2.0
+
     def _draw_overlay(self, frame, mode):
         h, w = frame.shape[:2]
+
+        # Semi‑transparent background for main info
         overlay = frame.copy()
         cv2.rectangle(overlay, (0, 0), (w, 80), (0, 0, 0), -1)
         frame = cv2.addWeighted(overlay, 0.3, frame, 0.7, 0)
 
+        # Mode (IDLE / RECORDING)
         mode_text = "RECORDING" if mode == "recording" else "IDLE"
         color = (0, 0, 255) if mode == "recording" else (0, 255, 0)
         cv2.putText(frame, f"MODE: {mode_text}", (10, 30),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2)
 
+        # Last recognised sign
         if self.sentence_words:
             last_word = self.sentence_words[-1]
             cv2.putText(frame, f"Last sign: {last_word}", (10, 55),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1)
 
+        # Current sentence (bottom)
         sentence = " ".join(self.sentence_words)
         max_chars = 40
         if len(sentence) > max_chars:
@@ -105,8 +124,23 @@ class LiveSignRecognizer:
         cv2.putText(frame, f"Sentence: {sentence}", (10, h - 15),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 1)
 
-        cv2.putText(frame, "S: start | SPACE: stop & predict | ESC/Q: quit",
+        # Controls hint
+        cv2.putText(frame, "S: start | SPACE: stop & predict | F: show full sentence | ESC/Q: quit",
                     (10, h - 45), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (200, 200, 200), 1)
+
+        # Temporary message (e.g., after pressing F)
+        if time.time() < self.temp_message_end_time:
+            # Draw a dark box at the centre top for the temporary message
+            msg = self.temp_message
+            (tw, th), baseline = cv2.getTextSize(msg, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2)
+            box_x1 = (w - tw) // 2 - 10
+            box_y1 = 90
+            box_x2 = box_x1 + tw + 20
+            box_y2 = box_y1 + th + 20
+            cv2.rectangle(frame, (box_x1, box_y1), (box_x2, box_y2), (0, 0, 0), -1)
+            cv2.putText(frame, msg, (box_x1 + 10, box_y1 + th + 10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
+
         return frame
 
     def run(self, camera_id=0):
@@ -120,7 +154,11 @@ class LiveSignRecognizer:
             fps = 30.0
 
         logger.info("Live sign recognition started.")
-        print("Controls: [S] start recording | [SPACE] stop & predict | [ESC/Q] quit")
+        print("Controls:")
+        print("  [S]       – start recording")
+        print("  [SPACE]   – stop recording & predict")
+        print("  [F]       – show full collected sentence")
+        print("  [ESC / Q] – quit")
 
         while True:
             ret, frame = cap.read()
@@ -146,6 +184,8 @@ class LiveSignRecognizer:
                 self._start_recording(frame, fps)
             elif key == ord(' ') and self.is_recording:
                 self._stop_recording_and_predict()
+            elif key == ord('f'):          # <--- NEW: F key to show full sentence
+                self._show_full_sentence()
             elif key == 27 or key == ord('q'):
                 break
 
@@ -155,8 +195,7 @@ class LiveSignRecognizer:
         cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    # Set debug_shapes=True to see tensor shapes at each step
     recognizer = LiveSignRecognizer(confidence_threshold=0.6,
                                     cooldown_frames=45,
-                                    debug_shapes=True)   # ← enable to trace the 4D issue
+                                    debug_shapes=True)
     recognizer.run()

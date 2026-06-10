@@ -1,6 +1,6 @@
 # config.py
 import os
-from pathlib import Path
+from pathlib import Path 
 
 ROOT_DIR = Path(__file__).resolve().parent
 
@@ -8,6 +8,7 @@ MODEL_DIR = ROOT_DIR / "models"
 MODEL_PATH = MODEL_DIR / "sign_model.pt"
 ENCODER_PATH = MODEL_DIR / "label_encoder.pkl"
 NORM_PATH = MODEL_DIR / "norm_stats.pkl"
+
 
 MP_MODEL_DIR = ROOT_DIR / "mediapipe_models"
 HAND_MODEL_PATH = MP_MODEL_DIR / "hand_landmarker.task"
