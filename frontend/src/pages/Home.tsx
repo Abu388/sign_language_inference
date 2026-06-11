@@ -17,10 +17,10 @@ const Home: React.FC = () => {
           <p>Recognise sign language gestures from webcam in real time. Build sentences and translate them into text.</p>
           <button>Launch</button>
         </div>
-        <div className="card">
+        <div className="card" onClick={() => navigate('/language-translation')}>
           <h2>🌐 Language Translation</h2>
-          <p>Coming soon – translate recognised signs into multiple languages.</p>
-          <button disabled>Coming Soon</button>
+          <p>Translate speech to form one language to another (supported languages include Amharic, English, Afan Oromo).</p>
+          <button>Launch</button>
         </div>
       </div>
     </div>

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { PredictionResponse } from '../types';
 
-import type { PredictionResponse } from '../types';   // <-- type-only import
-import { PredictionResponse } from './types'; 
+// import type { PredictionResponse } from '../types';   // <-- type-only import
+// import { PredictionResponse } from './types'; 
 const API_BASE = 'http://localhost:8000/api';
 
 export const predictVideo = async (

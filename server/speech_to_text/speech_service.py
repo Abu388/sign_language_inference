@@ -60,7 +60,7 @@ LANG_CONFIG = {
     },
 }
 
-# ── Google Cloud REST endpoints ───────────────────────────────────────────────
+# ── Google Cloud REST endpoints 
 STT_URL       = 'https://speech.googleapis.com/v1/speech:recognize'
 TTS_URL       = 'https://texttospeech.googleapis.com/v1/text:synthesize'
 TRANSLATE_URL = 'https://translation.googleapis.com/language/translate/v2'
@@ -99,7 +99,7 @@ class SpeechService:
         # No import here — avoids crashing if torch isn't installed yet.
         self._oromo_tts = None
 
-    # ── Speech-to-Text ────────────────────────────────────────────────────────
+    # ── Speech-to-Text 
 
     def speech_to_text(self,
                        audio_bytes: bytes,
@@ -154,7 +154,7 @@ class SpeechService:
             'raw':        data,
         }
 
-    # ── Text-to-Speech ────────────────────────────────────────────────────────
+    # ── Text-to-Speech 
 
     def text_to_speech(self,
                        text: str,
@@ -277,8 +277,7 @@ class SpeechService:
             'source_detected':  detected_src,
             'target':           target_lang,
         }
-
-    # ── Full pipeline helpers ─────────────────────────────────────────────────
+    # ── Full pipeline helpers 
 
     def doctor_to_patient(self,
                           audio_bytes: bytes,
@@ -353,7 +352,7 @@ class SpeechService:
         }
 
 
-# ── Private helpers ───────────────────────────────────────────────────────────
+# ── Private helpers 
 
 def _google_lang_code(lang: str) -> str:
     """Map internal code → Google Translate language code."""

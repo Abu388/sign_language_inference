@@ -34,7 +34,7 @@ TARGET_SAMPLE_RATE = 22050   # Standard rate; MMS native is ~16 kHz
 MAX_TEXT_CHARS = 500         # Hard cap to prevent OOM on long inputs
 
 
-# ── Lazy singleton — loaded once, reused across all calls ─────────────────────
+# ── Lazy singleton — loaded once, reused across all calls 
 
 _lock         = threading.Lock()
 _oromo_tts:   Optional["OromoTTS"] = None
@@ -50,7 +50,7 @@ def get_oromo_tts() -> "OromoTTS":
     return _oromo_tts
 
 
-# ── Main class ────────────────────────────────────────────────────────────────
+# ── Main class 
 
 class OromoTTS:
     """
@@ -103,7 +103,7 @@ class OromoTTS:
             self.sample_rate, self.device
         )
 
-    # ── Core synthesis ────────────────────────────────────────────────────────
+    # ── Core synthesis 
 
     def synthesize(self, text: str) -> tuple[np.ndarray, int]:
         """
@@ -142,7 +142,7 @@ class OromoTTS:
         waveform = waveform_tensor.squeeze().cpu().numpy().astype(np.float32)
         return waveform, self.sample_rate
 
-    # ── Format helpers ────────────────────────────────────────────────────────
+    # ── Format helpers 
 
     def synthesize_to_wav_bytes(self, text: str) -> bytes:
         """Synthesise text and return raw WAV bytes (PCM 16-bit)."""

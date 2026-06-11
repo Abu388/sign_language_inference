@@ -1,0 +1,154 @@
+.enhanced-ptt-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.visualizer-container {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.02);
+  padding: 8px;
+}
+
+.ptt-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.enhanced-ptt-btn {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: none;
+  font-size: 2.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.enhanced-ptt-btn.recording {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  animation: pulse 1s infinite;
+}
+
+.enhanced-ptt-btn.processing {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  animation: spin 1s linear infinite;
+}
+
+.enhanced-ptt-btn.playback {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  animation: bounce 0.5s ease;
+}
+
+.enhanced-ptt-btn:active {
+  transform: scale(0.95);
+}
+
+.enhanced-ptt-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(245, 87, 108, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 15px rgba(245, 87, 108, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(245, 87, 108, 0);
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.ptt-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: #f5f5f5;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.status-dot.idle {
+  background: #ccc;
+  box-shadow: 0 0 0px #ccc;
+}
+
+.status-dot.recording {
+  background: #ff4444;
+  animation: blink 1s infinite;
+}
+
+.status-dot.processing {
+  background: #ffaa00;
+  animation: blink 0.5s infinite;
+}
+
+.status-dot.playback {
+  background: #44ff44;
+  animation: pulse 0.5s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.language-badge {
+  background: #667eea;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.replay-btn {
+  padding: 8px 16px;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.replay-btn:hover {
+  background: #357abd;
+  transform: translateY(-2px);
+}
