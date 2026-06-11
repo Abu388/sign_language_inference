@@ -12,8 +12,8 @@ const Home: React.FC = () => {
         <p>Bridging the gap between hearing and deaf communities using AI.</p>
       </header>
       <div className="cards">
-        <div className="card" onClick={() => navigate('/sign-to-recognition')}>
-          <h2>✋ Sign to Recognition</h2>
+        <div className="card" onClick={() => navigate('/ai-refinement')}>
+          <h2>✋ Sign Recognition</h2>
           <p>Recognise sign language gestures from webcam in real time. Build sentences and translate them into text.</p>
           <button>Launch</button>
         </div>

@@ -1,20 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import TextToSpeech from '../components/TextToSpeech';
 import VoiceRecorder from '../components/VoiceRecorder';
 import SignVideoPlayer from '../components/SignVideoPlayer';
+import './Ai_refinement.css';
 
 const BACKEND_URL = "http://127.0.0.1:8000/ai/refine";
 
 const Ai_refinement = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const sentence = location.state?.sentence;
-  
+
   const [refinedSentence, setRefinedSentence] = useState("");
   const [loading, setLoading] = useState(false);
   const [doctorTranscribedText, setDoctorTranscribedText] = useState("");
-  
-  const hasRefined = useRef(false);   // Prevents double API call in StrictMode
+
+  const hasRefined = useRef(false);
 
   useEffect(() => {
     if (sentence && !hasRefined.current) {
@@ -28,84 +30,121 @@ const Ai_refinement = () => {
     try {
       const response = await fetch(BACKEND_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sentence: rawText }),
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.detail || "Failed to parse service payload.");
       }
-
       const data = await response.json();
       setRefinedSentence(data.refined_sentence);
     } catch (error: any) {
-      console.error("Error connecting to proxy backend:", error);
       setRefinedSentence(`Error: ${error.message || "Failed to communicate with local proxy server."}`);
-    } finally {
-      setLoading(false);
-    }
+    } finally { setLoading(false); }
   };
 
   return (
-    <div
-      style={{
-        padding: '2rem',
-        maxWidth: '800px',
-        margin: '0 auto',
-        fontFamily: 'system-ui, sans-serif'
-      }}
-    >
-      <h1>MediBridge</h1>
+    <div className="refine-page">
+      <header className="refine-header">
+        <button className="refine-back-btn" onClick={() => navigate(-1)}>← Back</button>
+        <div className="refine-header-center">
+          <h1 className="refine-title">MediBridge</h1>
+          <p className="refine-subtitle">AI-Assisted Medical Communication</p>
+        </div>
+        <div className="refine-header-spacer" />
+      </header>
 
-      {/* Existing AI Refinement Section */}
-      <div style={{ marginBottom: '2rem', padding: '1rem', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
-        <h3>Raw Transcribed Input:</h3>
-        <p style={{ fontSize: '1.2rem', marginTop: '0.5rem', color: '#666' }}>
-          {sentence || "No sentence received from routing."}
-        </p>
-      </div>
-
-      <div style={{ padding: '1rem', border: '2px solid #007bff', borderRadius: '8px' }}>
-        <h3 style={{ color: '#007bff' }}>MediBridge Refined Output:</h3>
-        {loading ? (
-          <p style={{ fontStyle: 'italic', color: '#555' }}>Processing medical communication...</p>
-        ) : (
-          <>
-            <p style={{ fontSize: '1.3rem', marginTop: '0.5rem', fontWeight: '500' }}>
-              {refinedSentence}
-            </p>
-            {/* Auto‑play TTS when refinedSentence appears */}
-            {refinedSentence && !refinedSentence.startsWith('Error') && (
-              <TextToSpeech text={refinedSentence} lang="en" />
-            )}
-          </>
-        )}
-      </div>
-
-      {/* New Doctor Speech Section */}
-      <hr style={{ margin: '2rem 0' }} />
-      <h2>Doctor Speech to Sign Language</h2>
-      <p>Press the button, speak a medical sentence, and see the sign language videos.</p>
-
-      <VoiceRecorder onTranscribed={setDoctorTranscribedText} language="en" buttonText="🎤 Start Speaking" />
-
-      {doctorTranscribedText && (
-        <>
-          <div style={{ marginTop: '1.5rem', padding: '1rem', backgroundColor: '#e9f7ef', borderRadius: '8px' }}>
-            <h3>Transcribed Text:</h3>
-            <p style={{ fontSize: '1.2rem' }}>{doctorTranscribedText}</p>
-            {/* <TextToSpeech text={doctorTranscribedText} lang="en" /> */}
+      <main className="refine-main">
+        <section className="refine-column">
+          <div className="refine-col-header patient">
+            <span className="refine-col-icon">👤</span>
+            <h2>Patient Communication</h2>
           </div>
 
-          <div style={{ marginTop: '1.5rem', padding: '1rem', border: '2px solid #28a745', borderRadius: '8px' }}>
-            <h3 style={{ color: '#28a745' }}>Sign Language Playback</h3>
-            <SignVideoPlayer text={doctorTranscribedText} autoPlay />
+          {sentence ? (
+            <>
+              <div className="refine-card">
+                <div className="refine-card-label">Raw Sign Input</div>
+                <div className="refine-raw-text">{sentence}</div>
+              </div>
+
+              <div className="refine-arrow">
+                <span className="refine-arrow-line" />
+                <span className="refine-arrow-text">AI Refinement</span>
+                <span className="refine-arrow-line" />
+              </div>
+
+              <div className={`refine-card refined ${refinedSentence && !refinedSentence.startsWith('Error') ? 'success' : ''}`}>
+                <div className="refine-card-label">Medically Refined Output</div>
+                {loading ? (
+                  <div className="refine-loading">
+                    <div className="refine-spinner" />
+                    <span>Processing medical communication...</span>
+                  </div>
+                ) : (
+                  <>
+                    <div className="refine-refined-text">{refinedSentence || 'Waiting for input...'}</div>
+                    {refinedSentence && !refinedSentence.startsWith('Error') && (
+                      <div className="refine-tts">
+                        <span className="refine-tts-label">🔊 Audio Playback</span>
+                        <TextToSpeech text={refinedSentence} lang="en" />
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            </>
+          ) : (
+            <div className="refine-card refine-start-card">
+              <div className="refine-start-icon">🤟</div>
+              <h3 className="refine-start-title">No Sign Input Yet</h3>
+              <p className="refine-start-desc">Start recording sign language to begin patient communication.</p>
+              <button className="refine-start-btn" onClick={() => navigate('/sign-to-recognition')}>
+                Start Sign Recording →
+              </button>
+            </div>
+          )}
+        </section>
+
+        <section className="refine-column">
+          <div className="refine-col-header doctor">
+            <span className="refine-col-icon">👨‍⚕️</span>
+            <h2>Doctor Communication</h2>
           </div>
-        </>
-      )}
+
+          <div className="refine-card">
+            <div className="refine-card-label">Speak to Your Patient</div>
+            <VoiceRecorder onTranscribed={setDoctorTranscribedText} language="en" buttonText="🎤 Start Speaking" />
+            <p className="refine-hint">Press and hold to record, release to transcribe</p>
+          </div>
+
+          {doctorTranscribedText && (
+            <>
+              <div className="refine-arrow">
+                <span className="refine-arrow-line" />
+                <span className="refine-arrow-text">Transcription</span>
+                <span className="refine-arrow-line" />
+              </div>
+
+              <div className="refine-card transcription">
+                <div className="refine-card-label">Transcribed Text</div>
+                <div className="refine-transcribed-text">{doctorTranscribedText}</div>
+              </div>
+
+              <div className="refine-arrow">
+                <span className="refine-arrow-line" />
+                <span className="refine-arrow-text">Sign Playback</span>
+                <span className="refine-arrow-line" />
+              </div>
+
+              <div className="refine-card sign-playback">
+                <SignVideoPlayer text={doctorTranscribedText} autoPlay />
+              </div>
+            </>
+          )}
+        </section>
+      </main>
     </div>
   );
 };
