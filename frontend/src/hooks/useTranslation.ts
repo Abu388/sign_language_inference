@@ -20,9 +20,7 @@ export const useTranslation = () => {
     formData.append('target_lang', targetLang);
 
     try {
-      const response = await axios.post(`${API_BASE}/interpret`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+      const response = await axios.post(`${API_BASE}/interpret`, formData);
       
       return response.data;
     } catch (err: any) {

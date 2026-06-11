@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import TextToSpeech from '../components/TextToSpeech';
 import VoiceRecorder from '../components/VoiceRecorder';
 import SignVideoPlayer from '../components/SignVideoPlayer';
 
-const BACKEND_URL = "http://127.0.0.1:8000/ai/refine"; // Adjust port if needed
+const BACKEND_URL = "http://127.0.0.1:8000/ai/refine";
 
 const Ai_refinement = () => {
   const location = useLocation();
@@ -12,12 +12,13 @@ const Ai_refinement = () => {
   
   const [refinedSentence, setRefinedSentence] = useState("");
   const [loading, setLoading] = useState(false);
-  
-  // New state for doctor speech
   const [doctorTranscribedText, setDoctorTranscribedText] = useState("");
+  
+  const hasRefined = useRef(false);   // Prevents double API call in StrictMode
 
   useEffect(() => {
-    if (sentence) {
+    if (sentence && !hasRefined.current) {
+      hasRefined.current = true;
       refineText(sentence);
     }
   }, [sentence]);

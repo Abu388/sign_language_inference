@@ -121,15 +121,21 @@ class SpeechService:
         lang_cfg  = LANG_CONFIG.get(source_lang, LANG_CONFIG['en'])
         audio_b64 = base64.b64encode(audio_bytes).decode('utf-8')
 
+        # latest_long is only supported for a subset of languages
+        model = 'latest_long' if source_lang == 'en' else None
+
+        config = {
+            'encoding':                   'WEBM_OPUS',
+            'sampleRateHertz':            sample_rate,
+            'languageCode':               lang_cfg['bcp47'],
+            'enableAutomaticPunctuation': True,
+            'alternativeLanguageCodes':   _alt_languages(source_lang),
+        }
+        if model:
+            config['model'] = model
+
         payload = {
-            'config': {
-                'encoding':                   'WEBM_OPUS',
-                'sampleRateHertz':            sample_rate,
-                'languageCode':               lang_cfg['bcp47'],
-                'enableAutomaticPunctuation': True,
-                'model':                      'latest_long',
-                'alternativeLanguageCodes':   _alt_languages(source_lang),
-            },
+            'config': config,
             'audio': {'content': audio_b64},
         }
 
@@ -224,7 +230,7 @@ class SpeechService:
             # Import here so the rest of the service works even if torch is
             # missing — only Oromo TTS will fail, not STT or Amharic TTS.
             try:
-                from oromo_tts import get_oromo_tts
+                from app.services.oromo_tts import get_oromo_tts
                 self._oromo_tts = get_oromo_tts()
             except ImportError as exc:
                 raise RuntimeError(

@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 import logging
 
-from .routers import predict, refinement, speech, audio, text_to_video   # add new ones
+from .routers import predict, refinement, speech, audio, text_to_video, interpret
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -35,6 +35,7 @@ app.include_router(predict.router, prefix="/api", tags=["prediction"])
 app.include_router(speech.router, prefix="/api", tags=["speech"])
 app.include_router(audio.router, prefix="/api", tags=["audio"])
 app.include_router(text_to_video.router, prefix="/api", tags=["text-to-video"])
+app.include_router(interpret.router, prefix="/api", tags=["interpret"])
 
 @app.get("/health")
 async def health_check():

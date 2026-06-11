@@ -38,6 +38,7 @@ VIDEO_MAP = {
     "hurt":       _video_path("videos/hurt/1.mp4"),
     "injection":  _video_path("videos/injection/1.mp4"),
     "medicine":   _video_path("videos/medicine/1.mp4"),
+    "nose":       _video_path("videos/nose/1.mp4"),
     "pain":       _video_path("videos/pain/1.mp4"),
     "pregnant":   _video_path("videos/pregnant/1.mp4"),
     "relax":      _video_path("videos/relax/1.mp4"),
