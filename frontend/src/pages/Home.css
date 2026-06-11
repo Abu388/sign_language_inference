@@ -1,0 +1,76 @@
+.home-container {
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: #f0f0f0;
+  margin-bottom: 3rem;
+}
+
+.cards {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  width: 300px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+}
+
+.card h2 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.card p {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.card button {
+  background: #667eea;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 30px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.card button:hover:not(:disabled) {
+  background: #5a67d8;
+}
+
+.card button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
