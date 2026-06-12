@@ -1,76 +1,83 @@
 .home-container {
-  text-align: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
+  background: var(--color-bg);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  text-align: center;
+}
+
+.hero {
+  margin-bottom: 3rem;
 }
 
 .hero h1 {
   font-size: 2.5rem;
-  margin-bottom: 1rem;
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  font-weight: 700;
+  color: var(--color-text-heading);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.5px;
 }
 
 .hero p {
-  font-size: 1.2rem;
-  color: #f0f0f0;
-  margin-bottom: 3rem;
+  font-size: 1.15rem;
+  color: var(--color-text-muted);
+  max-width: 560px;
+  margin: 0 auto;
 }
 
 .cards {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   flex-wrap: wrap;
   justify-content: center;
 }
 
 .card {
-  background: white;
-  border-radius: 20px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
   padding: 2rem;
   width: 300px;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  box-shadow: var(--shadow-sm);
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-accent);
 }
 
 .card h2 {
-  color: #333;
-  margin-bottom: 1rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--color-text-heading);
+  margin-bottom: 0.75rem;
 }
 
 .card p {
-  color: #666;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
   margin-bottom: 1.5rem;
+  line-height: 1.5;
 }
 
 .card button {
-  background: #667eea;
+  background: var(--color-accent);
   border: none;
-  padding: 0.5rem 1.5rem;
-  border-radius: 30px;
+  padding: 0.6rem 1.8rem;
+  border-radius: var(--radius-sm);
   color: white;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
   cursor: pointer;
   transition: background 0.2s;
 }
 
-.card button:hover:not(:disabled) {
-  background: #5a67d8;
-}
-
-.card button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
+.card button:hover {
+  background: var(--color-accent-hover);
 }

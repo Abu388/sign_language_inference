@@ -55,22 +55,22 @@ const SignVideoPlayer: React.FC<SignVideoPlayerProps> = ({ text, autoPlay = true
     }
   };
 
-  if (loading) return <p>Loading sign videos...</p>;
-  if (error) return <p style={{ color: 'red' }}>Error: {error}</p>;
-  if (videoUrls.length === 0) return <p>No matching signs found.</p>;
+  if (loading) return <p className="svp-loading">Loading sign videos...</p>;
+  if (error) return <p className="svp-error">Error: {error}</p>;
+  if (videoUrls.length === 0) return <p className="svp-empty">No matching signs found.</p>;
 
   return (
-    <div style={{ marginTop: '1rem' }}>
-      <h4>Sign Language Playback</h4>
+    <div className="svp-wrapper">
+      <h4 className="svp-title">Sign Language Playback</h4>
       <video
         ref={videoRef}
         src={videoUrls[currentIndex]}
         controls
         autoPlay={autoPlay}
         onEnded={handleVideoEnd}
-        style={{ width: '100%', maxWidth: '500px', borderRadius: '8px' }}
+        className="svp-video"
       />
-      <p>Video {currentIndex + 1} of {videoUrls.length}</p>
+      <p className="svp-counter">Video {currentIndex + 1} of {videoUrls.length}</p>
     </div>
   );
 };

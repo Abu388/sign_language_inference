@@ -2,14 +2,14 @@ import React, { useState, useRef } from 'react';
 
 interface VoiceRecorderProps {
   onTranscribed: (text: string) => void;
-  language?: string; // 'en', 'am', 'om'
+  language?: string;
   buttonText?: string;
 }
 
 const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
   onTranscribed,
   language = 'en',
-  buttonText = '🎤 Speak'
+  buttonText = 'Start Speaking'
 }) => {
   const [recording, setRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -33,7 +33,6 @@ const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
         const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' });
         setIsProcessing(true);
         try {
-          // Convert blob to base64
           const reader = new FileReader();
           reader.readAsDataURL(audioBlob);
           reader.onloadend = async () => {
@@ -54,7 +53,6 @@ const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
           setError(err.message);
         } finally {
           setIsProcessing(false);
-          // Stop all tracks
           stream.getTracks().forEach(track => track.stop());
         }
       };
@@ -74,23 +72,16 @@ const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
   };
 
   return (
-    <div style={{ margin: '1rem 0' }}>
+    <div className="vr-wrapper">
       <button
+        className={`vr-btn ${recording ? 'recording' : ''}${isProcessing ? ' processing' : ''}`}
         onClick={recording ? stopRecording : startRecording}
         disabled={isProcessing}
-        style={{
-          padding: '0.6rem 1.2rem',
-          fontSize: '1rem',
-          backgroundColor: recording ? '#dc3545' : '#28a745',
-          color: 'white',
-          border: 'none',
-          borderRadius: '30px',
-          cursor: isProcessing ? 'not-allowed' : 'pointer',
-        }}
       >
+        <span className="vr-btn-icon">{recording ? '■' : '🎤'}</span>
         {isProcessing ? 'Processing...' : recording ? 'Stop Recording' : buttonText}
       </button>
-      {error && <p style={{ color: 'red', marginTop: '0.5rem' }}>{error}</p>}
+      {error && <p className="vr-error">{error}</p>}
     </div>
   );
 };

@@ -1,15 +1,15 @@
 .sign-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--color-bg-secondary);
+  font-family: var(--font-sans);
 }
 
 .sign-header {
   display: flex;
   align-items: center;
   padding: 1rem 2rem;
-  background: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -17,10 +17,10 @@
 
 .sign-back-btn {
   background: none;
-  border: 2px solid #e0e0e0;
-  color: #555;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-body);
   padding: 0.4rem 1rem;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 500;
@@ -28,14 +28,13 @@
 }
 
 .sign-back-btn:hover {
-  background: #f0f0f0;
-  border-color: #ccc;
+  background: var(--color-bg-card);
 }
 
 .sign-title {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: var(--color-text-heading);
   margin: 0;
   position: absolute;
   left: 50%;
@@ -61,10 +60,11 @@
 }
 
 .sign-camera-card {
-  background: white;
-  border-radius: 16px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
 }
 
 .sign-camera-wrapper {
@@ -84,7 +84,7 @@
 .sign-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(15, 23, 42, 0.7);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -96,18 +96,16 @@
 }
 
 .sign-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(255, 255, 255, 0.25);
   border-top-color: white;
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  animation: sSpin 0.8s linear infinite;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+@keyframes sSpin {
+  to { transform: rotate(360deg); }
 }
 
 .sign-rec-indicator {
@@ -117,7 +115,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(15, 23, 42, 0.65);
   color: white;
   padding: 4px 12px;
   border-radius: 20px;
@@ -129,32 +127,25 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #666;
+  background: var(--color-text-muted);
   transition: all 0.3s;
 }
 
 .sign-rec-indicator.active .sign-rec-dot {
-  background: #ff4444;
-  animation: pulse 1s ease-in-out infinite;
+  background: var(--color-danger);
+  animation: sPulse 1s ease-in-out infinite;
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(1.3);
-  }
+@keyframes sPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
 }
 
 .sign-controls {
   display: flex;
   gap: 0.75rem;
   padding: 1rem;
-  background: #f8f9fa;
+  background: var(--color-bg-secondary);
 }
 
 .sign-btn {
@@ -165,7 +156,7 @@
   gap: 6px;
   padding: 0.7rem 1rem;
   border: none;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
@@ -173,44 +164,44 @@
 }
 
 .sign-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
 .sign-btn-record {
-  background: #4a90d9;
+  background: var(--color-accent);
   color: white;
 }
 
 .sign-btn-record:hover:not(:disabled) {
-  background: #3a7bc8;
+  background: var(--color-accent-hover);
 }
 
 .sign-btn-stop {
-  background: #e74c3c;
+  background: var(--color-danger);
   color: white;
 }
 
 .sign-btn-stop:hover:not(:disabled) {
-  background: #c0392b;
+  background: #DC2626;
 }
 
 .sign-btn-finish {
-  background: #27ae60;
+  background: var(--color-success);
   color: white;
 }
 
 .sign-btn-finish:hover:not(:disabled) {
-  background: #219a52;
+  background: #047857;
 }
 
 .sign-btn-secondary {
-  background: #6c757d;
+  background: var(--color-text-muted);
   color: white;
 }
 
 .sign-btn-secondary:hover {
-  background: #5a6268;
+  background: var(--color-text-body);
 }
 
 .sign-results-section {
@@ -220,16 +211,17 @@
 }
 
 .sign-card {
-  background: white;
-  border-radius: 12px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   padding: 1.2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s, transform 0.2s;
 }
 
 .sign-card:hover {
+  box-shadow: var(--shadow-md);
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
 .sign-card-header {
@@ -240,17 +232,17 @@
 }
 
 .sign-card h3 {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: #888;
+  color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin: 0;
 }
 
 .sign-badge {
-  background: #e8ecf1;
-  color: #666;
+  background: var(--color-bg-card);
+  color: var(--color-text-muted);
   padding: 2px 10px;
   border-radius: 12px;
   font-size: 0.75rem;
@@ -260,7 +252,7 @@
 .sign-clear-btn {
   background: none;
   border: none;
-  color: #999;
+  color: var(--color-text-muted);
   cursor: pointer;
   font-size: 1rem;
   padding: 2px 6px;
@@ -269,8 +261,8 @@
 }
 
 .sign-clear-btn:hover {
-  background: #fee;
-  color: #e74c3c;
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-danger);
 }
 
 .sign-word-chips {
@@ -281,7 +273,7 @@
 }
 
 .sign-chip {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--color-accent);
   color: white;
   padding: 4px 14px;
   border-radius: 16px;
@@ -291,36 +283,30 @@
 }
 
 @keyframes chipIn {
-  from {
-    opacity: 0;
-    transform: scale(0.8) translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+  from { opacity: 0; transform: scale(0.8) translateY(5px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .sign-empty {
-  color: #bbb;
+  color: var(--color-text-muted);
   font-size: 0.9rem;
   font-style: italic;
 }
 
 .sign-sentence-display {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 500;
-  color: #1a1a2e;
+  color: var(--color-text-heading);
   line-height: 1.5;
   word-break: break-word;
   min-height: 2rem;
-  padding: 0.5rem;
-  background: #f8f9fa;
-  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-bg-card);
+  border-radius: var(--radius-sm);
 }
 
 .sign-placeholder {
-  color: #ccc;
+  color: var(--color-border);
 }
 
 .sign-prediction-row {
@@ -331,9 +317,9 @@
 }
 
 .sign-prediction-word {
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--color-text-heading);
   min-width: 80px;
 }
 
@@ -346,15 +332,15 @@
 
 .sign-confidence-bar {
   flex: 1;
-  height: 8px;
-  background: #e8ecf1;
+  height: 6px;
+  background: var(--color-bg-card);
   border-radius: 4px;
   overflow: hidden;
 }
 
 .sign-confidence-fill {
   height: 100%;
-  background: linear-gradient(90deg, #f39c12, #27ae60);
+  background: linear-gradient(90deg, var(--color-accent), var(--color-success));
   border-radius: 4px;
   transition: width 0.5s ease;
 }
@@ -362,7 +348,7 @@
 .sign-confidence-text {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #666;
+  color: var(--color-text-muted);
   min-width: 45px;
 }
 
@@ -378,19 +364,19 @@
 
 .sign-hints span {
   font-size: 0.85rem;
-  color: #666;
+  color: var(--color-text-muted);
 }
 
 .sign-hints kbd {
-  background: #e8ecf1;
-  border: 1px solid #d0d4db;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
   border-bottom-width: 2px;
   border-radius: 4px;
   padding: 2px 8px;
   font-size: 0.8rem;
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-family: var(--font-sans);
   font-weight: 600;
-  color: #444;
+  color: var(--color-text-heading);
   margin-right: 4px;
 }
 
@@ -399,26 +385,20 @@
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  background: #333;
-  color: #ffd966;
+  background: var(--color-text-heading);
+  color: white;
   padding: 0.6rem 1.5rem;
   border-radius: 30px;
   font-size: 0.9rem;
   font-weight: 500;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-lg);
   z-index: 1000;
   animation: toastIn 0.3s ease-out;
 }
 
 @keyframes toastIn {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
 .sign-error {
@@ -430,7 +410,7 @@
   gap: 1rem;
   text-align: center;
   padding: 2rem;
-  background: #f5f7fa;
+  background: var(--color-bg-secondary);
 }
 
 .sign-error-icon {
@@ -438,12 +418,12 @@
 }
 
 .sign-error h2 {
-  color: #e74c3c;
+  color: var(--color-danger);
   margin: 0;
 }
 
 .sign-error p {
-  color: #666;
+  color: var(--color-text-muted);
   max-width: 400px;
 }
 
@@ -453,7 +433,7 @@
   }
 
   .sign-title {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     position: static;
     transform: none;
   }
